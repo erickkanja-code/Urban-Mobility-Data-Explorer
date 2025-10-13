@@ -46,3 +46,39 @@ def get_fares():
 
 if __name__ == "__main__":
     app.run(debug=True)
+@app.route('/trips/by_date', methods=['GET'])
+def trips_by_date():
+    """Filter trips by pickup date (YYYY-MM-DD)"""
+    date = request.args.get("date")
+    if not date:
+        return jsonify({"error": "Please provide ?date=YYYY-MM-DD"}), 400
+
+    conn = get_connection()
+    query = """
+        SELECT * FROM trips
+        WHERE DATE(pickup_datetime) = ?
+        LIMIT 100
+    """
+    rows = conn.execute(query, (date,)).fetchall()
+    conn.close()
+    return jsonify([dict(row) for row in rows])
+
+
+@app.route('/trips/by_distance', methods=['GET'])
+def trips_by_distance():
+    """Filter fares by trip distance range"""
+    min_d = float(request.args.get("min", 0))
+    max_d = float(request.args.get("max", 10))
+
+    conn = get_connection()
+    query = """
+        SELECT * FROM fares
+        WHERE trip_distance_km BETWEEN ? AND ?
+        LIMIT 100
+    """
+    rows = conn.execute(query, (min_d, max_d)).fetchall()
+    conn.close()
+    return jsonify([dict(row) for row in rows])
+
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -1,3 +1,8 @@
+#To run this Flask app, make sure Flask is installed:
+# pip install flask
+# If using VS Code and seeing "Import 'flask' could not be resolved",
+# select the correct Python interpreter (Ctrl+Shift+P → "Python: Select Interpreter").
+
 from flask import Flask, jsonify, request
 import sqlite3
 from pathlib import Path

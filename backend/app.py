@@ -1,12 +1,25 @@
-from flask import Flask, jsonify
-import pandas as pd
+from flask import Flask, jsonify, request
+import sqlite3
+from pathlib import Path
 
 app = Flask(__name__)
 
+# Build absolute path to the database
+BASE_DIR = Path(__file__).parent
+DB_PATH = BASE_DIR.parent / "database" / "taxi_data.db"
+
+def get_connection():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
 @app.route('/trips', methods=['GET'])
 def get_trips():
-    df = pd.read_csv('data/clean_trips_features.csv')
-    return jsonify(df.head(100).to_dict(orient='records'))  # return first 100 for demo
+    conn = get_connection()
+    cursor = conn.cursor()
+    rows = cursor.execute("SELECT * FROM trips LIMIT 100").fetchall()
+    conn.close()
+    return jsonify([dict(row) for row in rows])
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -2,7 +2,7 @@
 # To run: pip install flask flask-cors
 # Run with: python backend/app.py
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory, send_file
 from flask_cors import CORS
 import sqlite3
 from pathlib import Path
@@ -333,6 +333,15 @@ def api_top_zones():
         top.append({k: arr[best][k] for k in ("lat","lng","count")})
 
     return jsonify(top)
+@app.route('/')
+def serve_index():
+    """Serve the main HTML file"""
+    return send_file('../frontend/index.html')
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    """Serve CSS, JS, and other static files"""
+    return send_from_directory('../frontend', filename)
 
 if __name__ == "__main__":
     # Run dev server

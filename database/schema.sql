@@ -15,6 +15,16 @@ CREATE TABLE trips (
     dropoff_latitude REAL,
     store_and_fwd_flag TEXT,
     passenger_id INTEGER,
+    distance_km REAL,
+    duration_min REAL,
+    fare_amount REAL,
+    tip_amount REAL,
+    pickup_ts TEXT,
+    dropoff_ts TEXT,
+    pickup_lat REAL,
+    pickup_lng REAL,
+    dropoff_lat REAL,
+    dropoff_lng REAL,
     FOREIGN KEY (passenger_id) REFERENCES passengers(passenger_id)
 );
 

@@ -1,3 +1,28 @@
+"""
+------------------------------------------------------------
+Algorithm: Trip Ranking by Fare per km (Manual Selection Sort)
+------------------------------------------------------------
+Pseudo-code:
+FUNCTION rank_trips(trips, top_n):
+    FOR each trip t in trips:
+        t.used = False
+    top = []
+    FOR n = 1 TO top_n:
+        best_index = -1
+        FOR i = 0 TO len(trips)-1:
+            IF trips[i].used: CONTINUE
+            IF best_index == -1 OR trips[i].fare_per_km > trips[best_index].fare_per_km:
+                best_index = i
+        IF best_index == -1: BREAK
+        trips[best_index].used = True
+        APPEND trips[best_index] TO top
+    RETURN top
+------------------------------------------------------------
+Time Complexity: O(N × top_n)
+Space Complexity: O(N)
+------------------------------------------------------------
+"""
+
 import sqlite3
 from pathlib import Path
 

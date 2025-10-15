@@ -3,7 +3,7 @@ let currentPage = 1, pageSize = 20;
 
 document.addEventListener('DOMContentLoaded', () => {
   ensureHighlightStyle();
-  createChartPanel(); // insert the highlighted chart placeholder & description
+  createChartPanel(); // insert the highlighted chart placeholder and description
   setupControls();
   applyFilters();
 });
@@ -22,7 +22,7 @@ function setupControls(){
   initMap();
 }
 
-/* Insert highlight CSS for chart placeholder and description (idempotent) */
+//Insert highlight CSS for chart placeholder and description
 function ensureHighlightStyle() {
   if (document.getElementById('chart-highlight-style')) return;
   const style = document.createElement('style');
@@ -50,8 +50,8 @@ function ensureHighlightStyle() {
   document.head.appendChild(style);
 }
 
-/* Create the highlighted panel containing the chart canvas and description.
-   If an element with id 'generated-timechart-panel' already exists, do nothing. */
+//Create the highlighted panel containing the chart canvas and description.
+   //If an element with id 'generated-timechart-panel' already exists, do nothing.
 function createChartPanel() {
   if (document.getElementById('generated-timechart-panel')) return;
 
@@ -79,13 +79,14 @@ function createChartPanel() {
 
   const desc = document.createElement('p');
   desc.className = 'chart-description';
-  desc.innerHTML = 'This graph shows fluctuations of fare prices depending on the time of day: <strong>lowest during the wee hours</strong>, <strong>highest in the afternoon</strong>, then dips before rising again in the evening.';
+  desc.innerHTML = 'This graph should show fluctuations of fare prices depending on the time of day: <strong>lowest during the wee hours</strong>, <strong>highest in the afternoon</strong>, then goes down before rising again in the evening, when average fares are made available.';
+  desc.innerHTML += ' The pattern may vary based on location and other factors.';
   panel.appendChild(desc);
 
   container.appendChild(panel);
 }
 
-/* Chart.js loader: resolves immediately if Chart is already available */
+//Chart.js loader: resolves immediately if Chart is already available 
 function loadChartLibrary() {
   const CDN = 'https://cdn.jsdelivr.net/npm/chart.js';
   return new Promise((resolve, reject) => {
@@ -260,7 +261,7 @@ async function loadHeatmap(){
   });
 }
 
-/* ---------- Trips Table & Pagination ---------- */
+//Trips Table and Pagination 
 async function loadTrips(){
   const f = getFilters();
   const qs = new URLSearchParams({ start: f.start, end: f.end, min_distance: f.min_distance, limit: f.limit, page: f.page }).toString();
@@ -269,7 +270,7 @@ async function loadTrips(){
     document.getElementById('tableContainer').innerText = 'Failed to load trips';
     return;
   }
-  const payload = await res.json(); // {rows: [...], total: N}
+  const payload = await res.json(); 
   renderTripsTable(payload.rows || []);
   document.getElementById('pageInfo').innerText = `Page ${currentPage} — ${payload.total || '?'} trips total`;
 }
@@ -311,8 +312,8 @@ function toggleModal(show){
   document.getElementById('modal').classList.toggle('hidden', !show);
 }
 
-/* small helper: allow external code to update the chart with real data
-   usage: window.updateFareChart(labelsArray, valuesArray) */
+//small helper: allow external code to update the chart with real data
+   usage: window.updateFareChart(labelsArray, valuesArray)
 window.updateFareChart = async function(labels = [], values = []) {
   await loadChartLibrary(); // ensure lib exists
   if (!timeChart) {

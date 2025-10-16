@@ -35,6 +35,7 @@ A web dashboard for analyzing NYC taxi trip data with interactive visualizations
 3. **Install Python dependencies**
    ```bash
    pip install pandas numpy flask flask-cors
+   python -m pip install requests
    ```
 
 4. **Prepare the data**
@@ -45,7 +46,7 @@ A web dashboard for analyzing NYC taxi trip data with interactive visualizations
    # Generate features
    python backend/features.py
    
-   # Load data into database
+   # Load data into the database
    python database/load_data.py
    ```
 
@@ -55,8 +56,8 @@ A web dashboard for analyzing NYC taxi trip data with interactive visualizations
    ```
 
 6. **Open your browser**
-#you will see clickable links in your terminal
-   Navigate to `http://localhost:5000`
+# You will see clickable links in your terminal
+   Navigate to `http://127.0.0.1:5000`
 
 ## Project Structure
 

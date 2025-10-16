@@ -3,7 +3,9 @@ import numpy as np
 from math import radians, cos, sin, asin, sqrt
 
 # Load cleaned data
-df = pd.read_csv('data/clean_trips.csv')
+from pathlib import Path
+data_dir = Path(__file__).parent / "data"
+df = pd.read_csv(data_dir / 'clean_trips.csv')
 
 # --- Feature 1: Trip distance (Haversine formula) ---
 def haversine(lon1, lat1, lon2, lat2):
@@ -30,5 +32,5 @@ df.loc[df['trip_duration_h'] == 0, 'avg_speed_kmh'] = 0  # handle divide by zero
 df['pickup_hour'] = pd.to_datetime(df['pickup_datetime']).dt.hour
 
 # Save enhanced dataset
-df.to_csv('data/clean_trips_features.csv', index=False)
+df.to_csv(data_dir / 'clean_trips_features.csv', index=False)
 print("Features engineered and saved to 'data/clean_trips_features.csv'")
